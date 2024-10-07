@@ -1,0 +1,9 @@
+delete p1
+from Person p1
+left join (
+    select min(id) as min_id
+    from Person
+    group by email
+) p2
+on p1.id = p2.min_id
+where p2.min_id is null
