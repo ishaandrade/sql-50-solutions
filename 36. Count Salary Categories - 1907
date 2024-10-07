@@ -1,0 +1,16 @@
+with category_counts as (
+    select account_id, sum(if(income < 20000, 1, 0)) as low_count, 
+    sum(if(income >= 20000 and income <= 50000, 1, 0)) as average_count,
+    sum(if(income > 50000, 1, 0)) as high_count
+    from Accounts
+    group by account_id
+)
+
+select "Low Salary" as category, sum(low_count) as accounts_count
+from category_counts
+union all
+select "Average Salary" as category, sum(average_count) as accounts_count
+from category_counts
+union all
+select "High Salary" as category, sum(high_count) as accounts_count
+from category_counts
